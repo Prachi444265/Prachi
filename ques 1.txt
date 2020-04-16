@@ -1,0 +1,62 @@
+1.
+    mysql> create database Library;
+
+
+   mysql> create table LibraryBooks(
+    -> Ac_No int primary key,
+    -> Title varchar(25) not null,
+    -> Author varchar(40) not null,
+    -> Department varchar(30) not null,
+    -> Purchase_Date date not null,
+    -> Price decimal(5,2) not null);
+
+
+   mysql> Create table IssuedBooks(
+    -> Ac_No int not null,
+    -> Borrower Varchar(40) not null
+    -> foreign key (Ac_No) references LibraryBooks(Ac_No));
+
+
+  a. Primary Key- Ac_No ( Library Books) 
+        Foreign Key- Ac_No ( Issued Books) 
+mysql> insert into LibraryBooks values(12456,"Environmental Science","S.C. Gupta","Environment Studies",'1997-01-12',105.00);
+mysql>  insert into LibraryBooks values(78965,"Fundamental of Statistics","V.K. Kapoor","Statistics",'2005/03/31',550.00);
+mysql> insert into LibraryBooks values(34567,"Database System Concepts","Navathe","CS",'2002/07/21',499.00);
+mysql> insert into LibraryBooks values(89435,"Discrete Maths","K. Kapoor","Mathematics",'1999/09/04',450.00);
+mysql> insert into LibraryBooks values(23489,"Computer science with Python","Sumita Arora","CS",'1997-01-12',105.00);
+
+
+mysql> insert into IssuedBooks values( 34567,"Anuj Kumar");
+mysql> insert into IssuedBooks values( 15623,"Amita Jain");
+mysql> insert into IssuedBooks values( 78965,"Ankur Yadav");
+mysql> insert into IssuedBooks values( 21826,"Khushi Arora");
+mysql> insert into IssuedBooks values( 76389,"Anurika Manan");
+
+
+
+b. mysql> set foreign_key_checks=Off;
+       mysql> delete from librarybooks where Ac_No=34567;
+       mysql> delete from librarybooks where title="Database System Concepts";
+       mysql> set foreign_key_checks=on;
+
+
+c. mysql> update librarybooks set department="CS" where title="Discrete Maths";
+
+
+
+d. mysql> select Title from librarybooks where department="CS";
+
+
+e. mysql> select Title from librarybooks where department="CS" and author="Navathe";
+
+
+f. mysql> select Title from librarybooks l, issuedbooks I where l.Ac_No=I.Ac_No and l.department="CS";
+
+
+g. mysql> select Title from librarybooks where price<500 and purchase_date between '1999/01/01' and '2004/01/01';
+
+
+
+
+
+

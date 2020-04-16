@@ -1,0 +1,73 @@
+2.
+mysql> create database Computer_Dept;
+
+
+mysql> create table Personal_Information(
+    -> Clg_Roll_no int(10) primary key,
+    -> Name_of_student varchar(30) not null,
+    -> DOB date not null,
+    -> Address varchar(70) not null,
+    -> Marks_in_perc int(2) not null,
+    -> Phone_number Varchar(10) not null);
+
+
+mysql> create table Paper_Details(
+    -> Paper_Code int(8) unique,primary key,
+    -> Name_of_Paper char(30) unique);
+
+
+mysql> create table Academic_and_Attendance_Details(
+    -> Clg_Roll_no int(10) primary key,
+    -> Paper_code int(8) not null,
+    -> Attendance decimal(5,2) not null,
+    -> Marks int(3) not null,
+    -> foreign key(Clg_Roll_no) references         personal_information(Clg_Roll_no),
+    -> foreign key(Paper_Code) references Paper_Details(Paper_Code));
+
+
+
+
+a. Primary key -Clg_Roll_no (Personal_Information)
+                             Paper_Code( Paper_Details)
+        Foreign key - Clg_Roll_n0 ( Academic_and_Attendance_Details)
+                      Paper_code (Academic_and_Attendance_Details )
+
+
+mysql> insert into personal_information values(1945,"Nitin Arora",'2001-01-04',"Nainital",89,"9874532123");
+mysql> insert into personal_information values(1932,"Anuj Kumar",'2000-07-29',"Lucknow",91,"9748483743");
+mysql> insert into personal_information values(1935,"Bhavya Arora",'2000-03-19',"Delhi",94,"9837643368");
+mysql> insert into personal_information values(1943,"Ishita Pandey",'2001-09-21',"Delhi",97,"9637453672");
+mysql> insert into personal_information values(1957,"Praveen Singh",'2001-11-09',"Delhi",92,"9764563726");
+
+
+mysql> insert into paper_details value(1,"Environmental studies");
+mysql> insert into paper_details value(2,"Database Concepts");
+mysql> insert into paper_details value(3,"Descriptive studies");
+mysql> insert into paper_details value(4,"physics");
+mysql> insert into paper_details value(5,"Real Algebra");
+
+
+
+mysql> insert into Academic_and_Attendance_Details values(1935,3,80,70);
+mysql> insert into Academic_and_Attendance_Details(1957,2,70,90);
+mysql> insert into Academic_and_Attendance_Details(1945,4,65,91);
+mysql> insert into Academic_and_Attendance_Details(1932,2,65,91);
+mysql> insert into Academic_and_Attendance_Details(1943,1,75,65);
+
+
+
+b. mysql> select p.paper_code, p.name_of_paper, pi.name from paper_details as pd, personal_information as pi where paper_code=2 and pi.roll_no in(select roll_no from academic_details where paper_code=2 and attendance>75 and marks>60);
+
+
+
+c. mysql> select Name_of_Student from personal_informartion as p, Academic_and_Attendance_Details as aad where p.roll_no=aad.Clg_Roll_no and aad.marks>60 and aad.paper_code=1;
+
+
+d. mysql> select p.name, aad.attendance, aad.marks from personal_informartion as p, Academic_and_Attendance_Details as aad where p.Clg_Roll_no=aad.Clg_Roll_no;
+
+
+
+e. mysql> select Name_of_student from personal_informartion as p, Academic_and_Attendance_Details as aad where p.roll_no=aad.Clg_Roll_no and p.Clg_Roll_no=(select Clg_Roll_no from Academic_and_Attendance_Details where marks=(select max(marks) from Academic_and_Attendance_Details));
+
+
+
